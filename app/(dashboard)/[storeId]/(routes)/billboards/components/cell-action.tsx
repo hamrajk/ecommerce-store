@@ -1,0 +1,58 @@
+"use cleint";
+
+import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import toast from "react-hot-toast";
+import { useParams, useRouter } from "next/navigation";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+
+import { BillboardColumn } from "./columns";
+
+interface CellActionProps {
+  data: BillboardColumn;
+}
+
+export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+  const router = useRouter();
+  const params = useParams();
+  const onCopy = (id: string) => {
+    navigator.clipboard.writeText(id);
+    toast.success("Billboard Id copied to the clipboard");
+  };
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="w-8 h-8 p-0">
+          <span className="sr-only">Open menu</span>
+          <MoreHorizontal className="w-4 h-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Action</DropdownMenuLabel>
+        <DropdownMenuItem onClick={() => onCopy(data.id)}>
+          <Copy className="w-4 h-4 mr-2" />
+          Copy Id
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            router.push(`/${params.storeId}/billboards/${data.id}`)
+          }
+        >
+          <Edit className="w-4 h-4 mr-2" />
+          Update
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Trash className="w-4 h-4 mr-2" />
+          Delete
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
