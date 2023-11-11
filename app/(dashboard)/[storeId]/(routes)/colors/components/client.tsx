@@ -18,8 +18,6 @@ export const ColorsClient: React.FC<ColorsClientProps> = ({ data }) => {
   const router = useRouter();
   const params = useParams();
 
-  console.log("data:", data);
-
   return (
     <>
       <div className="flex items-center justify-between">
